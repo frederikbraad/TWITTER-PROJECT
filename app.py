@@ -1,5 +1,6 @@
 from bottle import default_app, get, post, run
 import sqlite3
+import git
 
 # converts toggles in the terminal to json objects
 def dict_factory(cursor, row):
