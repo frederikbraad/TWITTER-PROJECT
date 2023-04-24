@@ -1,4 +1,4 @@
-from bottle import default_app, get, post, run
+from bottle import default_app, get, post, run, template
 import sqlite3
 import git
 
@@ -17,7 +17,27 @@ def git_update():
 
 @get('/')
 def _():
+    try:
+        # connect to database
+        db = sqlite3.connect("company.db")
+        # to make toggles into dictionaries/json objects
+        db.row_factory = dict_factory
+        # selecting and fetching all users
+        users = db.execute("SELECT * FROM users").fetchall()
+        print(users)
+        return template("index", users=users)
+    except Exception as e:
+        print(e)
+    finally:
+        if "db" in locals(): db.close()
+
+@get('/')
+def _():
   return "Hello"
+
+
+import apis.api_delete_user
+import apis.api_get_latest_tweets
 
 
 ############ connecting to python anywhere or running locally
