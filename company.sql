@@ -17,4 +17,9 @@ CREATE TABLE users(
     PRIMARY KEY(user_id)
 ) WITHOUT ROWID;
 
-INSERT INTO users VALUES("c093125adf8047738152099cbae7e0bb", "elonmusk", "Elon", "Musk", "", "1676629975", "0", "0", "0", "0", "0", "0", "0");
+INSERT INTO users VALUES("c093125adf8047738152099cbae7e0bb", "elonmusk", "Elon", "Musk", "1", "1676629975", "0", "0", "0", "0", "0", "0", "0");
+INSERT INTO users VALUES("21a129059e3748f38c60e269c9d0fa68", "BarackObama", "Barack", "Obama", "2", "1682315159", "0", "0", "0", "0", "0", "0", "0");
+INSERT INTO users VALUES("aec05f81c10346d486b4cea6ff8c43db", "rickygervais", "Ricky", "Gervais", "3", "1682315210", "0", "0", "0", "0", "0", "0", "0");
+INSERT INTO users VALUES("a89d52876fb64cd0bb8706932e5659bd", "VancityReynolds", "Ryan", "Reynolds", "4", "1682315384", "0", "0", "0", "0", "0", "0", "0");
+INSERT INTO users VALUES("f3db87694de049fcae0b0177290f9005", "ladygaga", "Lady", "Gaga", "5", "1682315509", "0", "0", "0", "0", "0", "0", "0");
+
