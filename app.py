@@ -19,7 +19,7 @@ def git_update():
 def _():
     try:
         # connect to database
-        db = sqlite3.connect("company.db")
+        db = sqlite3.connect("twitter.db")
         # to make toggles into dictionaries/json objects
         db.row_factory = dict_factory
         # selecting and fetching all users
