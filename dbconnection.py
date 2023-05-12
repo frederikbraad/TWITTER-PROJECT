@@ -24,11 +24,12 @@ def db():
 
 EMAIL_MIN = 6
 EMAIL_MAX = 100
-EMAIL_REGEX = "^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"
+EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
 def validate_email():
   error = f"User email is not valid"
-  email = request.forms.get("user_email", "")
+  email = request.forms.get("email", "")
+  print(email)
   email = email.strip()
   if len(email) < EMAIL_MIN:
     response.status = 400 
@@ -50,7 +51,7 @@ USERNAME_REGEX = "^[a-z0-9_]{4,15}$"
 
 def validate_username():
 	error = f"Your username has to be at least {USERNAME_MIN} to {USERNAME_MAX} lowercased english letters"
-	username = request.forms.get("user_name", "")
+	username = request.forms.get("username", "")
 	username = username.strip()
 	if not re.match(USERNAME_REGEX, username): raise Exception(400, error)
 	return username
@@ -64,7 +65,7 @@ PASSWORD_REGEX = "^[a-z0-9]{10,128}$"
 
 def validate_password():
   error = f"Your password must be between {PASSWORD_MIN} to {PASSWORD_MAX} characters long"
-  password = request.forms.get("user_password", "")
+  password = request.forms.get("password", "")
   password = password.strip()
   if len(password) < PASSWORD_MIN:
     response.status = 400
@@ -78,7 +79,7 @@ def validate_password():
 
 def validate_confirm_password():
   error = "Password does not match"
-  password = request.forms.get("user_password")
+  password = request.forms.get("password")
   confirm_password = request.forms.get("confirm_password")
   password = password.strip()
   confirm_password = confirm_password.strip()
@@ -86,5 +87,4 @@ def validate_confirm_password():
     response.status = 400 
     raise Exception(error)
   return confirm_password
-
 

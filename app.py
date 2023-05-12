@@ -1,50 +1,71 @@
-from bottle import default_app, get, post, run, template
-import sqlite3
+from bottle import default_app, get, post, run, request, response, static_file, template
 import git
-
-# converts toggles in the terminal to json objects
-def dict_factory(cursor, row):
-  col_names = [col[0] for col in cursor.description]
-  return {key: value for key, value in zip(col_names, row)}
-
+import sqlite3
+import pathlib
+import dbconnection
+import os
+ 
 @post('/secret_url_for_git_hook')
 def git_update():
   repo = git.Repo('./TWITTER-PROJECT')
   origin = repo.remotes.origin
   repo.create_head('main', origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
   origin.pull()
-  return ""
+  return "Everything ok"
+ 
+##############################
+@get("/images/<filename:re:.*\.webp>")
+def _(filename):
+    return static_file(filename, root="./images")
 
-@get('/')
+@get("/images/<filename:re:.*\.png>")
+def _(filename):
+    return static_file(filename, root="./images")
+
+@get("/images/<filename:re:.*\.jpg>")
+def _(filename):
+    return static_file(filename, root="./images")
+
+
+@get("/")
+def index():
+  try:
+    db = dbconnection.db()
+    tweets = db.execute("SELECT * FROM tweets")
+    trends = db.execute("SELECT * FROM trends")
+    users = db.execute("SELECT * FROM users")
+    users_and_tweets = db.execute("SELECT * FROM users_and_tweets")
+    user_cookie = request.get_cookie("user")
+   
+
+    return template("index", title="Twitter", tweets=tweets, trends=trends, users=users, users_and_tweets=users_and_tweets, user_cookie=user_cookie)
+
+  except Exception as ex:
+    print(ex)
+    response.status = 400
+    return {"error index": str(ex)}
+
+  finally:
+    if "db" in locals(): db.close()
+
+##############################
+
+@get("/app.css")
 def _():
-    try:
-        # connect to database
-        db = sqlite3.connect("twitter.db")
-        # to make toggles into dictionaries/json objects
-        db.row_factory = dict_factory
-        # selecting and fetching all users
-        users = db.execute("SELECT * FROM users").fetchall()
-        print(users)
-        return template("index", users=users)
-    except Exception as e:
-        print(e)
-    finally:
-        if "db" in locals(): db.close()
+    return static_file("app.css", root=".")
 
-@get('/')
-def _():
-  return "Hello"
+##############################
 
+import routers.signup
+import routers.login
+import routers.logout
+import routers.profile
 
-import apis.api_delete_user
-import apis.api_get_latest_tweets
-
-
-############ connecting to python anywhere or running locally
+##############################
 
 try:
   import production
   application = default_app()
 except Exception as ex:
   print("Running local server")
-  run(host="127.0.0.1", port=4756, debug=True, reloader=True)
+  run(host="127.0.0.1", port=3000, debug=True, reloader=True)

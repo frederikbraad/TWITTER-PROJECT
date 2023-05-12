@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="popup" class=" hidden bg-black rounded-xl shadow-white shadow-sm w-56 z-50 p-2 mb-2">
+        <button class="text-white font-bold mb-4 text-15">Add an existing account</button>
+        <button type="button" onclick="openLogout()" class="text-white font-bold text-15">Log out</button>
+    </div>
+
+
+    <script>
+        const logout = document.getElementById("logout")
+
+        function openLogout() {
+            const overlay = document.getElementById("overlay")
+            logout.classList.remove("hidden")
+            overlay.classList.remove("hidden")
+            document.body.style.overflow = "hidden";
+            popup.classList.add("hidden")
+        }
+
+    </script>
+</body>
+</html>

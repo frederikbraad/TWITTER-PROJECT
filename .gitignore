@@ -1,0 +1,7 @@
+Include
+Lib
+Scripts
+.gitignore
+pyvenv.cfg
+.env
+node_modules
